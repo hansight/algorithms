@@ -20,9 +20,10 @@ import org.apache.spark.rdd.RDD
  * val opt = New ParallelOptics(minPts, radius)
  * val out = opt.run(data)
  *
- *  @param minPts : minimum density in OPTICS. If in a range radius the points number is bigger than or equal minPoints
- *                  they ara treated as belong a same cluster
- *  @param radius : the largest range for OPTICS to find minimum density
+ *  @param minPts       : minimum density in OPTICS. If in a range radius the points number is bigger than or equal minPoints
+ *                        they ara treated as belong a same cluster
+ *  @param radius       : the largest range for OPTICS to find minimum density
+ *  @param distanceType : like "EuclideanDistance", "LenvenshteinDistance"... more details see object Distance
  *
  *         data   : RDD[T], here T is Array[Double] or String with URL format like "/a/b/c"
  *         out    : RDD[Point], witch records the necessary information to get clusters
