@@ -12,12 +12,6 @@ import scala.collection.mutable.ArrayBuffer
  * ParallelOptics is using Spark to parallel the distance calculate, and sequence update steps for OPTICS.
  *
  * how to use it:
- * step 1: creat a Spark context
- * val conf = new SparkConf().setMaster("local[*]").setAppName("POptics").set("spark.default.parallelism", "4")
- * val sc   = new SparkContext(conf)
- * sc.setCheckpointDir("checkpoint")
- * 
- * setp 2: run ParalleOptics
  * val opt = New ParallelOptics(minPts, radius)
  * val out = opt.run(data)
  *
