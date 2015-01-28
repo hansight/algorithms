@@ -75,7 +75,7 @@ class ParallelOpticsSuite extends FunSuite {
     val data_ = sc.parallelize(data)
 
     // noise must be 0, cluster must be 1
-    var opt = new ParallelOptics(0, Double.MaxValue)
+    var opt = new ParallelOptics(0, Double.MaxValue, "EuclideanDistance")
     var out = opt.run(data_).collect()
     var clu = getCluster(out, data, 10000)
     assert(clu._1            == 1)
@@ -84,14 +84,14 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3(0)(0).flag == 1)
 
     // noise must be 1, cluster must be 0
-    opt = new ParallelOptics(1, -2)
+    opt = new ParallelOptics(1, -2, "EuclideanDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 1)
     assert(clu._1            == 0)
     assert(clu._2            == 1)
     assert(clu._3.length     == 1)
     assert(clu._3(0)(0).flag == -1)
-    opt = new ParallelOptics(3, 100)
+    opt = new ParallelOptics(3, 100, "EuclideanDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 50)
     assert(clu._1            == 0)
@@ -107,7 +107,7 @@ class ParallelOpticsSuite extends FunSuite {
     val data_ = sc.parallelize(data)
 
     // noise must be 0, cluster must be 1
-    var opt = new ParallelOptics(0, 3)
+    var opt = new ParallelOptics(0, 3, "URL_LenvenshteinDistance")
     var out = opt.run(data_).collect()
     var clu = getCluster(out, data, 2)
     assert(clu._1            == 1)
@@ -116,14 +116,14 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3(0)(0).flag == 1)
 
     // noise must be 1, cluster must be 0
-    opt = new ParallelOptics(1, -2)
+    opt = new ParallelOptics(1, -2, "URL_LenvenshteinDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 1)
     assert(clu._1            == 0)
     assert(clu._2            == 1)
     assert(clu._3.length     == 1)
     assert(clu._3(0)(0).flag == -1)
-    opt = new ParallelOptics(3, 10)
+    opt = new ParallelOptics(3, 10, "URL_LenvenshteinDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 1.1)
     assert(clu._1            == 0)
@@ -143,7 +143,7 @@ class ParallelOpticsSuite extends FunSuite {
 
     // noise must be 0, cluster must be 1
     // lb = [[cluster_1]]
-    var opt = new ParallelOptics(1, Double.MaxValue)
+    var opt = new ParallelOptics(1, Double.MaxValue, "EuclideanDistance")
     var out = opt.run(data_).collect()
     var clu = getCluster(out, data, 0)
     assert(clu._1           == 1)
@@ -154,7 +154,7 @@ class ParallelOpticsSuite extends FunSuite {
 
     // noise must be 3, cluster must be 0
     // lb = [[noise]]
-    opt = new ParallelOptics(1, -2)
+    opt = new ParallelOptics(1, -2, "EuclideanDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 0)
     assert(clu._1           == 0)
@@ -162,7 +162,7 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3.length    == 1)
     assert(clu._3(0).length == 3)
     assert(clu._3(0).forall(x => x.flag == -1))
-    opt = new ParallelOptics(Int.MaxValue, Double.MaxValue)
+    opt = new ParallelOptics(Int.MaxValue, Double.MaxValue, "EuclideanDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 99999.0)
     assert(clu._1           == 0)
@@ -183,7 +183,7 @@ class ParallelOpticsSuite extends FunSuite {
 
     // noise must be 0, cluster must be 1
     // lb = [[cluster_1]]
-    var opt = new ParallelOptics(1, Double.MaxValue)
+    var opt = new ParallelOptics(1, Double.MaxValue, "URL_LenvenshteinDistance")
     var out = opt.run(data_).collect()
     var clu = getCluster(out, data, 0)
     assert(clu._1           == 1)
@@ -194,7 +194,7 @@ class ParallelOpticsSuite extends FunSuite {
 
     // noise must be 3, cluster must be 0
     // lb = [[noise]]
-    opt = new ParallelOptics(1, -2)
+    opt = new ParallelOptics(1, -2, "URL_LenvenshteinDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 0)
     assert(clu._1           == 0)
@@ -202,7 +202,7 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3.length    == 1)
     assert(clu._3(0).length == 3)
     assert(clu._3(0).forall(x => x.flag == -1))
-    opt = new ParallelOptics(Int.MaxValue, Double.MaxValue)
+    opt = new ParallelOptics(Int.MaxValue, Double.MaxValue, "URL_LenvenshteinDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 1.414)
     assert(clu._1           == 0)
@@ -224,7 +224,7 @@ class ParallelOpticsSuite extends FunSuite {
 
     // noise must be 0, cluster must be 1
     // lb = [[cluster_1]]
-    var opt = new ParallelOptics(2, Double.MaxValue)
+    var opt = new ParallelOptics(2, Double.MaxValue, "EuclideanDistance")
     var out = opt.run(data_).collect()
     var clu = getCluster(out, data, 3578654.0)
     assert(clu._1           == 1)
@@ -253,7 +253,7 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3.length    == 1)
     assert(clu._3(0).length == 4)
     assert(clu._3(0).forall(x => x.flag == -1))
-    opt = new ParallelOptics(5, Double.MaxValue)
+    opt = new ParallelOptics(5, Double.MaxValue, "EuclideanDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 14527561.0)
     assert(clu._1           == 0)
@@ -275,11 +275,11 @@ class ParallelOpticsSuite extends FunSuite {
 
     // noise must be 0, cluster must be 1
     // lb = [[cluster_1]]
-    var opt = new ParallelOptics(2, Double.MaxValue)
+    var opt = new ParallelOptics(2, Double.MaxValue, "URL_LenvenshteinDistance")
     var out = opt.run(data_).collect()
     var clu = getCluster(out, data, 1.0)
     assert(clu._1           == 1)
-    assert(clu._2           == 0, " " + clu._2 + " " + clu._3(1)(0).data + " " + out(3).coreDis + " " + out(3).reachDis)
+    assert(clu._2           == 0)
     assert(clu._3.length    == 1)
     assert(clu._3(0).length == 4)
     assert(clu._3(0).forall(x => x.flag == 1))
@@ -304,7 +304,7 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3.length    == 1)
     assert(clu._3(0).length == 4)
     assert(clu._3(0).forall(x => x.flag == -1))
-    opt = new ParallelOptics(5, Double.MaxValue)
+    opt = new ParallelOptics(5, Double.MaxValue, "URL_LenvenshteinDistance")
     out = opt.run(data_).collect()
     clu = getCluster(out, data, 7.77)
     assert(clu._1           == 0)
@@ -321,27 +321,27 @@ class ParallelOpticsSuite extends FunSuite {
       val z = Math.sqrt(-2.0 * Math.log(1.0 - Math.random)) * Math.cos(2.0 * Math.PI * Math.random)
       mean + std * z
     }
-    val data  = Array.fill(300, 4)(randn(-300, 50)) ++ Array.fill(300, 4)(randn(0, 50)) ++ Array.fill(400, 4)(randn(300, 50))
+    val data  = Array.fill(150, 4)(randn(-300, 50)) ++ Array.fill(200, 4)(randn(0, 50)) ++ Array.fill(150, 4)(randn(300, 50))
     val data_ = sc.parallelize(data, 100)
 
     // noise must be 0, cluster must be 1
     // lb = [[cluster_1]]
-    var opt = new ParallelOptics(20, Double.MaxValue)
-    var out = opt.run(data_).collect()
+    val opt = new ParallelOptics(20, Double.MaxValue, "EuclideanDistance")
+    val out = opt.run(data_).collect()
     var clu = getCluster(out, data, 31415926.0)
     assert(clu._1           == 1)
     assert(clu._2           == 0)
     assert(clu._3.length    == 1)
-    assert(clu._3(0).length == 1000)
+    assert(clu._3(0).length == 500)
     assert(clu._3(0).forall(x => x.flag == 1))
 
     // noise must be 1000, cluster must be 0
     // lb = [[noise]]
     clu = getCluster(out, data, 0)
     assert(clu._1           == 0)
-    assert(clu._2           == 1000)
+    assert(clu._2           == 500)
     assert(clu._3.length    == 1)
-    assert(clu._3(0).length == 1000)
+    assert(clu._3(0).length == 500)
     assert(clu._3(0).forall(x => x.flag == -1))
 
     // cluster must be 3
@@ -354,7 +354,7 @@ class ParallelOpticsSuite extends FunSuite {
     assert(clu._3(1).forall(x => x.flag == 2))
     assert(clu._3(2).forall(x => x.flag == 3))
     if (clu._2 > 0) {
-      assert(clu._3(0).length + clu._3(1).length + clu._3(2).length + clu._3(3).length == 1000)
+      assert(clu._3(0).length + clu._3(1).length + clu._3(2).length + clu._3(3).length == 500)
       assert(clu._3(3).forall(x => x.flag == -1))
     }
 

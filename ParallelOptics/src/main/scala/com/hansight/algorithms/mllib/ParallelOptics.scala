@@ -50,8 +50,8 @@ import org.apache.spark.rdd.RDD
  * must be a core point, but in this paper it used the first point its checked.
  *
  */
-class ParallelOptics ( minPts       : Int,
-                       radius       : Double,
+class ParallelOptics ( minPts : Int,
+                       radius : Double,
                        distanceType : String = "EuclideanDistance") extends Serializable with Logging {
 
   /**
